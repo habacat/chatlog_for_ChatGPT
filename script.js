@@ -1,3 +1,14 @@
+// 在文件开头添加按钮相关的事件处理
+document.addEventListener('DOMContentLoaded', function() {
+	const buttons = document.querySelectorAll('.json-type-btn');
+	buttons.forEach(button => {
+		button.addEventListener('click', function() {
+			buttons.forEach(btn => btn.classList.remove('active'));
+			this.classList.add('active');
+		});
+	});
+});
+
 // 自定义扩展以处理数学公式，包括 \[ ... \] 和 [ ... ] 作为显示数学公式
 marked.use({
 	extensions: [{
@@ -95,7 +106,6 @@ function adjustContainerWidth() {
 	const messages = document.querySelectorAll('.message');
 	messages.forEach(message => {
 		message.style.width = 'auto';
-		message.style.maxWidth = '100%';
 		message.style.marginLeft = 'auto';
 		message.style.marginRight = 'auto';
 	});
@@ -110,10 +120,28 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 
 	reader.onload = function (e) {
 		try {
-			const json = JSON.parse(e.target.result);
-			const messages = json.messages || [];
+			const jsonType = document.querySelector('.json-type-btn.active').dataset.value;
+			const rawJson = JSON.parse(e.target.result);
 			const contentDiv = document.getElementById('content');
 			contentDiv.innerHTML = '';
+
+			// 根据JSON类型选择不同的解析方法
+			let messages;
+			if (jsonType === 'debug') {
+				messages = rawJson.messages || [];
+			} else {
+				// 处理网络响应JSON格式
+				messages = [];
+				rawJson.forEach(conversation => {
+					const mapping = conversation.mapping || {};
+					Object.values(mapping).forEach(node => {
+						if (node.message) {
+							messages.push(node.message);
+						}
+					});
+				});
+			}
+
 			messages.forEach(msg => {
 				const role = msg.author.role;
 				const contentType = msg.content.content_type;
@@ -254,6 +282,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 			const loadNewJsonButton = document.getElementById('load-new-json');
 			loadNewJsonButton.classList.remove('hidden');
 		} catch (err) {
+			console.error(err);
 			alert('无效的JSON文件');
 			loadingDiv.classList.remove('visible');
 		}
@@ -263,8 +292,8 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 	const titleContainer = document.getElementById('title-container');
 	titleContainer.style.transition = 'all 0.7s ease';
 	titleContainer.style.display = 'flex';
-	titleContainer.style.justifyContent = 'center';
-	titleContainer.style.alignItems = 'center';
+	titleContainer.style.textAlign = 'center';
+	titleContainer.classList.add('no-margin');
 	setTimeout(() => {
 		titleContainer.style.justifyContent = 'flex-start';
 	}, 10);
@@ -273,6 +302,10 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 document.getElementById('load-new-json').addEventListener('click', function () {
 	document.getElementById('content').innerHTML = '';
 	document.getElementById('container').classList.remove('loaded');
+	const titleContainer = document.getElementById('title-container');
+	titleContainer.style.transition = 'all 0.7s ease';
+	titleContainer.style.justifyContent = 'center';
+	titleContainer.classList.remove('no-margin');
 	this.classList.add('hidden');
 	document.getElementById('fileInput').value = '';
 });

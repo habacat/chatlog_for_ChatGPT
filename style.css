@@ -29,7 +29,8 @@ body {
 	width: 100%;
 	max-width: 800px;
 	margin: 0 auto;
-	padding: 2rem;
+	padding: 4rem 2rem;
+	min-height: calc(100vh - 4rem);
 	transition: padding 0.7s ease;
 }
 
@@ -39,9 +40,11 @@ body {
 }
 
 #title {
-	font-size: 2rem;
+	font-size: 2.5rem;
+	font-weight: 600;
 	text-align: center;
-	margin-bottom: 2rem;
+	margin-bottom: 0;
+	color: #2c3e50;
 	transition: all 0.7s ease;
 }
 
@@ -53,10 +56,14 @@ body {
 
 .file-input-container {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: 1.5rem;
 	margin-bottom: 2rem;
-	transition: opacity 0.7s ease;
+	transition: all 0.7s ease;
+	width: 100%;
+	max-width: 400px;
 }
 
 .container.loaded .file-input-container {
@@ -67,18 +74,78 @@ body {
 }
 
 .file-input {
-	padding: 0.5rem 1rem;
+	width: 100%;
+	padding: 0.75rem 1.5rem;
 	font-size: 1rem;
 	cursor: pointer;
-	border: 1px solid #ccc;
-	border-radius: 0.25rem;
-	background-color: #f5f5f5;
+	border: 2px solid #e0e0e0;
+	border-radius: 0.5rem;
+	background-color: white;
 	color: #333;
-	transition: background-color 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 .file-input:hover {
-	background-color: #e0e0e0;
+	background-color: #f8f9fa;
+	border-color: #d0d0d0;
+}
+
+#container {
+	width: auto;
+	max-width: 55rem;
+	margin: auto;
+}
+
+.content {
+	margin-top: 0.5rem;
+	transition: max-height 0.3s ease;
+	overflow-x: auto;
+	max-width: 100%;
+}
+
+.content::-webkit-scrollbar {
+	height: 4px;
+}
+
+.content::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+}
+
+.content p {
+	margin: 0.3rem 0;
+	line-height: 2rem;
+}
+
+.collapsed .content {
+	max-height: 6rem;
+	overflow: hidden;
+}
+
+.content h1 {
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}
+
+.content h2 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.content h3 {
+	font-size: 1.25rem;
+	margin-bottom: 1rem;
+}
+
+.content h4 {
+	font-size: 1.125rem;
+	margin-bottom: 1rem;
+}
+
+.content .katex-display {
+	font-size: 1rem;
+	max-width: 50rem;
+	margin: 0.2rem auto 0.8rem auto;
 }
 
 .message {
@@ -93,15 +160,14 @@ body {
 	transition: max-height 0.3s ease;
 	margin-left: auto;
 	margin-right: auto;
-	/* 确保消息容器居中 */
 	max-width: 100%;
 }
 
-.system {
+.message system {
 	background-color: rgba(255, 255, 255, 0.9);
 }
 
-.user {
+.message user {
 	background-color: rgba(255, 224, 178, 0.3);
 }
 
@@ -126,30 +192,6 @@ body {
 .timestamp {
 	font-size: 0.875rem;
 	color: #666;
-}
-
-.content {
-	margin-top: 0.5rem;
-	transition: max-height 0.3s ease;
-	overflow-x: auto;
-}
-
-.content::-webkit-scrollbar {
-	height: 4px;
-}
-
-.content::-webkit-scrollbar-thumb {
-	background: rgba(0, 0, 0, 0.2);
-	border-radius: 2px;
-}
-
-.content p {
-	margin: 0.3rem 0;
-}
-
-.collapsed .content {
-	max-height: 6rem;
-	overflow: hidden;
 }
 
 .message.collapsed::after {
@@ -203,10 +245,12 @@ pre code {
 	cursor: pointer;
 	transition: color 0.3s ease, transform 0.3s ease;
 	z-index: 1;
+	color: #a9a9a9;
 }
 
 .copy-button:hover {
-	color: #666;
+	color: #333;
+	font-weight: 600;
 }
 
 .copy-button.copied {
@@ -219,7 +263,13 @@ pre code {
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	margin-bottom: 3rem;
 	transition: all 0.7s ease;
+}
+
+#title-container.no-margin {
+	margin-bottom: 0;
+	margin-left: 1rem;
 }
 
 .hidden {
@@ -316,4 +366,74 @@ pre {
 
 #load-new-json:hover {
 	background-color: #e0e0e0;
+}
+
+footer {
+	display: flex;
+	width: 100%;
+	padding: 1rem;
+	background-color: #f0f0f0;
+	margin-top: 2rem;
+	justify-content: center;
+}
+
+footer p {
+	margin: 0;
+	color: #666;
+	font-size: 0.875rem;
+	text-align: center;
+}
+
+.json-type-select {
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	width: 100%;
+	border: 2px solid #e0e0e0;
+	border-radius: 0.5rem;
+	background-color: white;
+	color: #333;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.json-type-select:hover {
+	background-color: #f8f9fa;
+	border-color: #d0d0d0;
+}
+
+.json-type-buttons {
+	display: flex;
+	gap: 1rem;
+	width: 100%;
+	margin-bottom: 1.5rem;
+}
+
+.json-type-btn {
+	flex: 1;
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	border: 2px solid #e0e0e0;
+	border-radius: 0.5rem;
+	background-color: white;
+	color: #333;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+.json-type-btn:hover {
+	background-color: #f8f9fa;
+	border-color: #d0d0d0;
+}
+
+.json-type-btn.active {
+	background-color: #e3f2fd;
+	border-color: #2196f3;
+}
+
+.json-type-btn.active::after {
+	content: '✓';
+	position: absolute;
+	right: 1rem;
+	color: #2196f3;
 }

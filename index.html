@@ -17,13 +17,11 @@
   <meta http-equiv="x-dns-prefetch-control" content="on" />
   <title>简易解析ChatGPT的对话JSON</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- 引入 Highlight.js -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-  <!-- 引入 KaTeX -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -32,6 +30,10 @@
       <h1 id="title">简易解析 ChatGPT 的对话 JSON</h1>
     </div>
     <div class="file-input-container">
+      <div class="json-type-buttons">
+        <button class="json-type-btn active" data-value="debug">Debug Panel JSON</button>
+        <button class="json-type-btn" data-value="network">Network Response JSON</button>
+      </div>
       <input type="file" id="fileInput" class="file-input" accept=".json" />
     </div>
     <div id="content"></div>
@@ -39,8 +41,14 @@
   <div id="loading">
     <div class="spinner"></div>
   </div>
-  <button id="load-new-json" class="hidden">加载新JSON</button>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <button id="load-new-json" class="hidden">加载新 JSON</button>
+  <footer id="footer" role="contentinfo">
+    <p>© 2024 habacat. All rights reserved.</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.3/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
   <script src="script.js"></script>
   <script src="favicon_script.js"></script>
 </body>
