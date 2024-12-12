@@ -132,7 +132,9 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 			} else {
 				// 处理网络响应JSON格式
 				messages = [];
-				rawJson.forEach(conversation => {
+				// 判断是数组还是单个对象
+				const conversations = Array.isArray(rawJson) ? rawJson : [rawJson];
+				conversations.forEach(conversation => {
 					const mapping = conversation.mapping || {};
 					Object.values(mapping).forEach(node => {
 						if (node.message) {
